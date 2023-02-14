@@ -30,6 +30,7 @@ change_to = direction
 
 # Return a random number within the range of the window to place the fruit
 
+fruit_spawn = False
 fruit = [random.randrange(1, (x//10))*10, random.randrange(1, (y//10))*10]
 
 
@@ -81,9 +82,21 @@ while Running:
 
     body.insert(0, list(position))
 
-    # Remove the leftover body of the snake while moving
+    # Check if the snake is touching a fruit, if fruit touched snake increases it length
 
-    body.pop()
+    if position[0] == fruit[0] and position[1] == fruit[1]:
+        fruit_spawn = False
+    else:
+        body.pop()
+
+    # If the snake touched a fruit --> fruit respawn
+
+    if not fruit_spawn:
+        fruit = [random.randrange(1, (x // 10)) * 10, random.randrange(1, (y // 10)) * 10]
+        fruit_spawn = True
+
+    # Remove the leftover body of the snake (stop infinite body length)
+
     window.fill(black)
 
     # Create the physical form of the snake and fruits
@@ -101,7 +114,7 @@ while Running:
 
     # If the snake touch itself --> game_over
 
-    for self in body:
+    for self in body[1:]:
         if position[0] == self[0] and position[1] == self[1]:
             game_over()
 
