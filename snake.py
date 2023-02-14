@@ -1,5 +1,7 @@
+import time
 import pygame
 import random
+from sys import exit
 
 # Global layout
 
@@ -24,6 +26,7 @@ score_increment = 1
 green = pygame.Color(0, 255, 0)
 black = pygame.Color(0, 0, 0)
 red = pygame.Color(255, 0, 0)
+white = pygame.Color(255, 255, 255)
 
 # Set up the body size and position as well as the initial direction
 
@@ -38,9 +41,26 @@ fruit_spawn = False
 fruit = [random.randrange(1, (x//10))*10, random.randrange(1, (y//10))*10]
 
 
-def game_over():        # End the game if a condition is trigger
-    global Running
-    Running = False
+def game_over():        # End the game when condition is trigger
+
+    # Game over text layout
+
+    game_over_text = pygame.font.Font(None, 50)
+    game_over_frame = game_over_text.render('GAME OVER' + '  ' + f'Your score: {score}', True, white)
+    game_over_set = game_over_frame.get_rect()
+    game_over_set.midtop = (x / 2, y / 4)
+
+    # Display the text
+
+    window.blit(game_over_frame, game_over_set)
+
+    # Refresh the screen
+
+    pygame.display.flip()
+
+    # Wait 2 sec before quiting the program
+
+    time.sleep(2)
     pygame.quit()
     quit()
 
@@ -49,9 +69,16 @@ def game_over():        # End the game if a condition is trigger
 
 while Running:
 
-    # Receive the arrow keys input
-
     for event in pygame.event.get():
+
+        # Quit the program if close button is clicked
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+        # Receive the arrow keys input
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 change_to = 'LEFT'
@@ -132,3 +159,4 @@ while Running:
 
     pygame.display.flip()
     fps.tick(speed)
+
