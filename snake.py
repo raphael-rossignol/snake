@@ -4,16 +4,20 @@ import random
 # Global layout
 
 pygame.init()
+pygame.font.init()
 speed = 15
 fps = pygame.time.Clock()
 x = 720
 y = 480
 window = pygame.display.set_mode((x, y))
 pygame.display.set_caption("Snake")
+font = pygame.font.Font(None, 35)
 
 # Condition for the game loop
 
 Running = True
+score = 0
+score_increment = 1
 
 # Color set up
 
@@ -86,6 +90,7 @@ while Running:
 
     if position[0] == fruit[0] and position[1] == fruit[1]:
         fruit_spawn = False
+        score += score_increment
     else:
         body.pop()
 
@@ -118,5 +123,12 @@ while Running:
         if position[0] == self[0] and position[1] == self[1]:
             game_over()
 
-    pygame.display.update()
+    # Draw the score to the screen
+
+    score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+    window.blit(score_text, (50, 50))
+
+    # Refresh the game at 15 fps
+
+    pygame.display.flip()
     fps.tick(speed)
