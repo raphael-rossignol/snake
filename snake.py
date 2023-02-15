@@ -18,6 +18,7 @@ font = pygame.font.Font(None, 35)
 Running = True
 score = 0
 score_increment = 1
+last_score = ''
 
 # Color set up
 green = pygame.Color(0, 255, 0)
@@ -37,7 +38,10 @@ fruit = [random.randrange(1, (x//10))*10, random.randrange(1, (y//10))*10]
 
 
 def game_over():        # End the game when condition is trigger
+    global last_score
+
     # Game over text layout
+    last_score = score
     game_over_text = pygame.font.Font(None, 50)
     game_over_frame = game_over_text.render('GAME OVER' + '  ' + f'Your score: {score}', True, white)
     game_over_set = game_over_frame.get_rect()
@@ -149,6 +153,7 @@ def game_menu():        # Menu displaying last score and reset the game
     global change_to
     global body
     global position
+    global last_score
     global score
 
     # Reset game
@@ -157,7 +162,6 @@ def game_menu():        # Menu displaying last score and reset the game
     position = [100, 50]
     direction = 'RIGHT'
     change_to = direction
-    score = 0
 
     # Press space to play
     while not Running:
@@ -175,13 +179,20 @@ def game_menu():        # Menu displaying last score and reset the game
         game_menu_frame = game_menu_text.render('PRESS SPACE TO START THE GAME', True, white)
         game_menu_set = game_menu_frame.get_rect()
         game_menu_set.midtop = (x / 2, y / 4)
+        score_frame = game_menu_text.render(f'Last score : {last_score}', True, white)
+        score_set = score_frame.get_rect()
+        score_set.midbottom = (x / 2, y / 4)
+
 
         # Display the text
         window.blit(game_menu_frame, game_menu_set)
+        window.blit(score_frame, score_set)
 
         # Refresh the screen
         pygame.display.flip()
         window.fill(black)
+
+        score = 0
 
 
 game_menu()
