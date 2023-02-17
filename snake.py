@@ -147,7 +147,7 @@ def main_loop():    # Main game loop
         fps.tick(speed)
 
 
-def game_menu():        # Menu displaying last score and reset the game
+def game_menu():        # Menu for last score and reset the game
     global Running
     global direction
     global change_to
@@ -183,7 +183,6 @@ def game_menu():        # Menu displaying last score and reset the game
         score_set = score_frame.get_rect()
         score_set.midbottom = (x / 2, y / 4)
 
-
         # Display the text
         window.blit(game_menu_frame, game_menu_set)
         window.blit(score_frame, score_set)
@@ -192,6 +191,7 @@ def game_menu():        # Menu displaying last score and reset the game
         pygame.display.flip()
         window.fill(black)
 
+        # Set the base score at 0
         score = 0
 
 
